@@ -1,0 +1,61 @@
+---
+title: "Factors Affecting Miles Per Gallon"
+author: "Yilmaz Rona"
+date: "December 12, 2015"
+output: html_document
+---
+
+# Introduction
+
+We analyze [data extracted from the 1974 Motor Trend magazine describing fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)](http://www.mortality.org/INdb/2008/02/12/8/document.pdf).
+
+We will construct a model that predicts the fuel efficiency in miles per gallon (mpg) for these vehicles.
+
+# Single variable correlations
+
+```{r  cache=FALSE,echo=FALSE}
+knitr::read_chunk('singlecorrelations.r')
+```
+```{r singlecorrelations, echo=FALSE}
+```
+```{r calcSingleCorr}
+  single.correlations <- singlecorrelations()
+  single.correlations
+```
+
+# Multivariate model
+
+## Iteration 1
+
+## Iteration 2
+
+## Iteration 3
+
+
+# Appendix 1: Data and Methods
+
+We used R to perform the analysis.  The dataset is provided by default with the R installation.
+
+## Data
+
+```{r dataset, echo=FALSE}
+mtcars
+
+```
+
+## Figures
+
+```{r  cache=FALSE,echo=FALSE}
+knitr::read_chunk('plot01.r')
+```
+```{r plot01, echo=FALSE}
+```
+```{r displayplot01,fig.height=8}
+  plot01.predictors <- as.character( single.correlations$Pred)
+  plot01(plot01.predictors)
+```
+
+## Code
+
+```{r singlecorrelations, eval=FALSE}
+```
