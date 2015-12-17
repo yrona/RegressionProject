@@ -1,0 +1,42 @@
+---
+title: "Supplement:Fuel Efficiency and Transmission Types"
+author: "Yilmaz Rona"
+date: "December 17, 2015"
+output: html_document
+---
+
+# Introduction
+
+This document documents the code and data used in the analysis. The analysis was performed using the R programming language.
+
+# Data
+
+The dataset is provided by default with the R installation.
+
+```{r dataset, echo=FALSE}
+mtcars
+
+```
+
+
+# Code
+
+## Analysis
+### Calculating Single Variable Correlations
+
+```{r  cache=FALSE,echo=FALSE}
+knitr::read_chunk('singlecorrelations.r')
+```
+```{r singlecorrelations, eval=FALSE}
+```
+
+## Figures
+### Figure 01
+```{r  cache=FALSE,echo=FALSE}
+knitr::read_chunk('plot01.r')
+```
+```{r plot01, eval=FALSE}
+```
+```{r displayplot01,eval=FALSE}
+  plot01.predictors <- as.character( single.correlations$Pred)
+  plot01(plot01.predictors)

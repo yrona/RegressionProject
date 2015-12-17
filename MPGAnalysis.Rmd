@@ -1,18 +1,23 @@
 ---
-title: "Factors Affecting Miles Per Gallon"
+title: "Fuel Efficiency and Transmission Types"
 author: "Yilmaz Rona"
 date: "December 12, 2015"
 output: html_document
 ---
 
+# Executive Summary
+
 # Introduction
 
-We analyze [data extracted from the 1974 Motor Trend magazine describing fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)](http://www.mortality.org/INdb/2008/02/12/8/document.pdf).
+We analyze [data extracted from the 1974 Motor Trend magazine describing fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)](http://www.mortality.org/INdb/2008/02/12/8/document.pdf) to explore the following:
 
-We will construct a model that predicts the fuel efficiency in miles per gallon (mpg) for these vehicles.
+* Question: Is an automatic or manual transmission better for MPG?
+* Quantify: The MPG difference between automatic and manual transmissions.
+* Explore: The relationship between miles per gallon and the other parameters in the data set.
 
-# Single variable correlations
+# The Relationship Between Fuel Efficiency and Other Parameters
 
+We begin by exploring the general relationship between MPG and the other parameters in the data.  
 ```{r  cache=FALSE,echo=FALSE}
 knitr::read_chunk('singlecorrelations.r')
 ```
@@ -23,7 +28,7 @@ knitr::read_chunk('singlecorrelations.r')
   single.correlations
 ```
 
-# Multivariate model
+# Transmission Type and Fuel Efficiency
 
 ## Iteration 1
 
@@ -32,18 +37,9 @@ knitr::read_chunk('singlecorrelations.r')
 ## Iteration 3
 
 
-# Appendix 1: Data and Methods
+# Appendix 1: Figures
 
-We used R to perform the analysis.  The dataset is provided by default with the R installation.
-
-## Data
-
-```{r dataset, echo=FALSE}
-mtcars
-
-```
-
-## Figures
+## Figure 1: Fuel Efficiency (mpg) vs other parameters
 
 ```{r  cache=FALSE,echo=FALSE}
 knitr::read_chunk('plot01.r')
@@ -53,9 +49,4 @@ knitr::read_chunk('plot01.r')
 ```{r displayplot01,fig.height=8}
   plot01.predictors <- as.character( single.correlations$Pred)
   plot01(plot01.predictors)
-```
-
-## Code
-
-```{r singlecorrelations, eval=FALSE}
 ```
