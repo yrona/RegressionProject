@@ -2,10 +2,14 @@
 title: "Fuel Efficiency and Transmission Types"
 author: "Yilmaz Rona"
 date: "December 12, 2015"
-output: html_document
+output: pdf_document
 ---
 
 # Executive Summary
+
+An examination of performance data for 32 vehicles in production in 1974 shows that for those vehicles, fuel efficiency was better for cars with a manual transmission than those with automatic transmissions.
+
+The improvement in fuel efficiency was on the order of 3 miles per gallon.
 
 # Introduction
 
@@ -15,7 +19,7 @@ We analyze [data extracted from the 1974 Motor Trend magazine describing fuel co
 * Quantify: The MPG difference between automatic and manual transmissions.
 * Explore: The relationship between miles per gallon and the other parameters in the data set.
 
-# The Relationship Between Fuel Efficiency and Other Parameters
+# Relationship of Fuel Efficiency with Other Parameters
 
 We begin by exploring the general relationship between MPG and the other parameters in the data.  
 ```{r  cache=FALSE,echo=FALSE}
@@ -30,23 +34,100 @@ knitr::read_chunk('singlecorrelations.r')
 
 # Transmission Type and Fuel Efficiency
 
-## Iteration 1
+``` {r values1, echo=FALSE}
+  am.df <- subset(single.correlations, subset = Pred == "am")
+  
+  c.slope <- am.df$Slope
+  c.slope.pval <- as.double( am.df$Slope_pval)
+  
+```
 
-## Iteration 2
+The predictor "am" represents a binary variable, where 0 = automatic transmission and 1 = manual transmission. 
 
-## Iteration 3
+The positive slope (beta1 = `r c.slope`) for the row labeled "am" implies that manual transmissions are more fuel efficient than automatic transmissions: P(beta1 = 0) = `r format(c.slope.pval,scientific = TRUE)` .
 
+However, reality is somewhat more nuanced since could be a number of confounding factors.  
+
+## Factors Affecting Fuel Efficiency
+
+Fuel efficiency is the interplay between three characteristics of motor vehicles.
+
+* Drag
+* Mass
+* Driving style.
+
+The most critical is drag from the road, the air and internal components, since all fuel consumption while traveling at a steady speed is to produce power to exactly counteract the energy losses due to drag.  Road drag is most heavily affected by weight and tire design. Aerodynamic drag is affected by the streamlining and size of the vehicle.  Internal drag is the product of the engine, transmission and drive train design. 
+During periods of acceleration, the mass of the car, and the desired acceleration play also affect fuel consumption; getting a heavy vehicle up to speed requires a greater amount of energy than getting a lighter vehicle up to speed; and, all things being equal, the greater the rate at which a car is accelerating, the lower the fuel efficiency.
+
+## Choosing a Multiple Regression Model
+
+```{r  cache=FALSE,echo=FALSE}
+knitr::read_chunk('pickbestmodel.r')
+```
+```{r multipleregression,echo=FALSE}
+```
+```{r calcbestmodel}
+  multi.model <- pick.best.model()
+  summary(multi.model)
+```
+
+```{r cachemultivalues, echo=FALSE}
+  multi.model.predictors <- names(multi.model$coefficients)[2:length(multi.model$coefficients)]
+  m.am.beta1 <- multi.model$coefficients["am"]
+  m.rsq <- summary(multi.model)$r.squared * 100
+```
+  
+These results are unsurprising in that the three predictors in the model (`r multi.model.predictors`) cover the vast majority of the vehicle properties that we predicted would affect fuel consumption, and the other potential predictors - particularly related to engine size and power - correlate with them.  
+
+This simple model accounts for `r m.rsq`% of the variation in mpg.
+
+Under this model, changing from a manual to automatic transmission increases fuel efficiency by about `r m.am.beta1` mpg.  This is less than the `r c.slope` mpg improvement implied by the simple regression analysis, implying that the confounding effects increased the apparent effect of the different transmission types.
 
 # Appendix 1: Figures
 
 ## Figure 1: Fuel Efficiency (mpg) vs other parameters
+
+Automatic (0) vs Manual(1) transmissions.
 
 ```{r  cache=FALSE,echo=FALSE}
 knitr::read_chunk('plot01.r')
 ```
 ```{r plot01, echo=FALSE}
 ```
-```{r displayplot01,fig.height=8}
+```{r displayplot01,fig.height=8, echo=FALSE}
   plot01.predictors <- as.character( single.correlations$Pred)
+  
   plot01(plot01.predictors)
+```
+
+## Figure 2: Fuel Efficiency (mpg) vs other parameters
+Automatic (0) vs Manual(1) transmissions.
+```{r  cache=FALSE,echo=FALSE}
+knitr::read_chunk('plot02.r')
+```
+```{r plot02, echo=FALSE}
+```
+```{r displayplot02,fig.height=8, echo=FALSE}
+  plot02(as.character( multi.model.predictors))
+```
+
+## Figure 3: Final Model Residuals
+
+```{r }
+  par(mfrow = c(2,2));plot(multi.model)
+```
+
+# Appendix 2: Code
+## Model Generation
+```{r singlecorrelations, eval=FALSE}
+```
+
+```{r multipleregression, eval=FALSE}
+```
+
+## Plots
+```{r plot01, eval=FALSE}
+```
+
+```{r plot02, eval=FALSE}
 ```

@@ -14,7 +14,9 @@ singlecorrelations <- function() {
     c.frame <- data.frame(Pred = term.names[i], 
                           Slope = summary(c.result)$coefficients[2,1],
                           Intcpt = summary(c.result)$coefficients[1,1],
-                          RSq = summary(c.result)$r.squared )
+                          RSq = summary(c.result)$r.squared,
+                          Slope_pval = summary(c.result)$coefficients[2,4],
+                          Intcpt_pval = summary(c.result)$coefficients[1,4] )
     #Append to data frame
     lm.result.frame = rbind(lm.result.frame,c.frame)
   }
